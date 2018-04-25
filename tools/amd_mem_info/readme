@@ -1,0 +1,5 @@
+AMD Memory Details and Manufacture
+wget https://www.dropbox.com/s/e9bnlia1lyymxkk/amdmeminfo.tar.gz
+tar -zxvf amdmeminfo.tar.gz
+sudo cp amdmeminfo /usr/local/bin/
+sudo amdmeminfo
