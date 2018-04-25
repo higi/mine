@@ -1,0 +1,1 @@
+cat /sys/kernel/debug/dri/*/amdgpu_pm_info
