@@ -1,1 +1,124 @@
 initial commit
+
+DISCLAIMER - This is not recommended, use the online tool if it works for you. This guide/tutorial is for AMD only. And if anything goes wrong, you do this at your own risk
+
+Alright with that out of the way, why would you want to overclock/undervolt your cards manually when there is an easy to use online tool?
+
+    well duh, the online hiveOS OC/UV tool didn't work for you. (The OC should always work according to my understanding of HiveOS, UV with OC can be sketchy at times)
+    You're just a curious little bunny who's interested in finding out how things work under the hood.
+
+Basics:
+
+    Power States: Power states are basically different core/memory/voltage settings on your GPU, which, depending on the GPU load, will automatically use whichever power state it deems most efficient. We can force the GPU to work at a chosen power state and modify its settings to our preference accordingly, but more on that later.
+    Now there are different power states for both your GPU's Memory and Core. We'll call these P-states. We'll get to finding out what P-states your AMD gpu has later but typically
+    Memory has P0, P1 and P2
+    Core has P0, P1, P2, P3 ... upto P7
+    P0 is the resting power state and when your GPU is idling, this is the power state that is most likely to be used. The highest power state is going to be used by both memory and core when mining (i-e 100% load).
+
+    Linux and GPUs:
+    For every GPU you have on your machine, linux is going to create a directory with relevant settings and information pertaining to it.
+    Each GPU is going to have an ID assigned to it. To see which GPU is assigned which ID paths use the amd-info command in the terminal/console.
+
+        amd-info
+
+And you will see something like this (Figure 1)
+The information is self explanatory. You can count the number of Core Clocks and Memory Clocks to acertain how many P-states your cards have. They are always indexed from zero e.g P0 and onwards.
+
+Now each P-state has associated voltage settings (Volt-states) not shown by "amd-info". Lowering volt-state settings should typically result in undervolting.
+For that we use another command
+
+    wolfamdctrl
+
+Entering this command in the terminal/console will print out its usage (how to use). Suppose I want to see what settings Card 0 from figure 1 is using, I'll use the following command
+
+    wolfamdctrl -i 0 --show-core
+
+This command basically tells the wolfamdctrl tool to select GPU id 0 (-i <GPU ID>) and show its core settings. You'll see something like this (Figure 2)
+Similarly you can use --show-mem instead of --show-core, to view detailed memory P-state information.
+
+    How the online OC/UV tool works:
+    Going forward I should highlight how the online tool OCs/UVs your cards and the two cases where it did not work for me. When you apply OC/UV values using the online tool, they are pushed to your rig and applied to your cards via the wolfamdctrl tool, the OS also forces your cards into the "default" Core State (Index) and Mem State (Index) P-states , if these are left empty online. The value of Core-State (Index) is also used for modifying the respective volt-state settings i-e volt-state index = Core State(Index).
+
+    Limitations of the online tool:
+
+    Case 1: As highlighted in Figure 2, there is a mismatch between Core State and volt state. Say I wanted to overclock Core clock for state 7 and undervolt it, i'd put Core State(index) as 7 online. The online tool will assume Core-State 7 conincides with Volt-state 7. And will eventually end up applying core clock setting for P-state 7 and voltage setting for P-state 6 (in Figure 1 notice "voltage table entry 7" conincides with P-state 6).
+    This ends up in an UV on a P-state which is not being used. In short UV does not work.
+
+    Case 2: In Figure 1, notice card 1 is manually set to DPM 0. That is because undervolting any other state did not result in lower power consumption (They had values like VDDC:655282,655283...upto 655288 except P-state 0). You cannot set Core State(Index) to 0 using the online tool and have to do it manually.
+
+    How to Overclock/Undervolt manually:
+    We will use the wolfamdctrl tool to do this. Take the card 0 from figure 1 as an example.
+    We know GPU ID is 0.
+    We want to OC memory P-state 2 to 1500
+    Core P-state 7 to 1200
+    And the corresponding volt-state 8 to 900
+    We want fan-speed to be at a constant 45% We will use
+
+        wolfamdctrl -i 0 --mem-state 2 --mem-clock 1500 --core-state 7 --core-clock 1200 --volt-state 8 --vddc-table-set 900 --set-fanspeed 45
+        This will apply the relevant settings to your card
+
+    Achieving persistence:
+    This step will require writing a script and modifying HiveOS boot files. Essentially giving you that sweet sweet OC/UV setting everytime the system crashes and recovers.
+    We will also go through how to force your GPU core into a P-state of choosing, (required for Case 2 described above).
+
+- Forcing a GPU core into a particular P-State:
+To force a GPU into a particular P-State we will have to use the GPU path highligted in Figure 1. First we will put the card into manual dpm mode, and then tell it to switch to a DPM of our liking.
+We do the first by typing following command
+
+    echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
+
+Note the italicized text, this is the GPU path for card ID 0. You can replace the card ID path with your own card ID path.
+
+Next, we'll tell the card to switch to Core P_state 0 e.g. We will do this by writing the following command
+
+    echo 0 > /sys/class/drm/card0/device/pp_dpm_sclk
+
+Again, notice we're using the ID path for GPU 0. You can use a value of your liking instead of 0 for choosing a different P-state and ofc replace the card ID with your own. The P-state value should be a valid P-State.
+
+-Writing the script:
+We will be creating the script in the root directory. So move to /root by typing
+
+    cd /root
+
+Now we will open up a text editor to write the script in. We'll be using nano. Enter this
+
+    nano OC
+
+This will open up nano. This is just an example, you'll have to write your own script.
+
+    #!/bin/bash
+    /bin/sleep 15
+    #Card 0
+    #Since I were able to undervolt card 0 at P-state 7, I will not force it into state 0
+    wolfamdctrl -i 0 --core-state 7 --core-clock 1240 --volt-state 8 --vddc-table-set 875 --mem-state 2 --mem-clock 1900 --set-fanspeed 45
+    #Card 1
+    #For card 1, we will first modify P-state 0 and then force the GPU into it
+    echo manual > /sys/class/drm/card1/device/power_dpm_force_performance_level
+    wolfamdctrl -i 1 --core-state 0 --core-clock 1240 --volt-state 0 --vddc-table-set 875 --mem-state 2 --mem-clock 1900 --set-fanspeed 45
+    echo 0 > /sys/class/drm/card1/device/pp_dpm_sclk
+
+Note: the lines starting with # are comments (expect the first one) and are there for your clarity, you dont have to use them.
+Press Ctrl + x. It will ask if you want to save this buffer. Press Y. Press Enter.
+
+We will make this script executable by entering the following into the command line (at the /root directory)
+
+    chmod +x OC
+
+Now we have our script ready. For testing I would suggest reducing the sleep time to 1 from 15, and setting it back to 15 once you're satisfied it works. Enter
+
+    bash OC
+
+-Achieving persistence
+This will apply your OC/UV settings, you can confirm by using amd-info. Once you're satisfied, we have to make this script run after every boot. To do this we will add this script to the HiveOs routine boot script.
+
+    nano /hive/bin/hive
+
+Goto the bottom where it says "Hive State Finished" and add the following before it. Reference(Figure 3)
+
+    bash /root/OC
+
+Press Crtl +x, Press Y, Press Enter. You have now added your script to the HiveOs startup routine. reboot make sure it works, use amd-info to check.
+
+Congratulations, you're done!! Goodluck out there.
+
+Note, this was tested on hiveOS v0.5.12 - v0.5.30. The basic principles are the same, and this should work for other versions as well
