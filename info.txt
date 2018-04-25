@@ -122,3 +122,24 @@ Press Crtl +x, Press Y, Press Enter. You have now added your script to the HiveO
 Congratulations, you're done!! Goodluck out there.
 
 Note, this was tested on hiveOS v0.5.12 - v0.5.30. The basic principles are the same, and this should work for other versions as well
+
+
+В редакторе прописываем команды (строк должно получиться столько же, сколько у Вас установлено карт)
+
+sudo ./wolfamdctrl -i 0 --set-fanspeed 75 --core-state 2 --mem-state 2 --mem-clock 1900
+
+sudo ./wolfamdctrl -i 1 --set-fanspeed 75 --core-state 2 --mem-state 2 --mem-clock 1900
+
+sudo ./wolfamdctrl -i 2 --set-fanspeed 75 --core-state 2 --mem-state 2 --mem-clock 1900
+
+sudo ./wolfamdctrl -i 3 --set-fanspeed 75 --core-state 2 --mem-state 2 --mem-clock 1900
+
+sudo ./wolfamdctrl -i 4 --set-fanspeed 75 --core-state 2 --mem-state 2 --mem-clock 1900
+
+"!!! Указанные выше значения адаптированы под карты RX 560 2G Sapphire Pulse
+Далее CTRL+O, Enter, CTRL+X !!!" Ваши значения могут существенно отличаться!!!
+
+Поэтому рекомендуется сначала определить число core-state и mem-state под Ваши карты командой
+
+sudo ./wolfamdctrl -i 0 --show-core
+sudo ./wolfamdctrl -i 0 --show-mem
