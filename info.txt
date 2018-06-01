@@ -1,146 +1,142 @@
-./ohgodatool -i 1 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 2 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 3 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 4 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 5 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 6 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 7 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 8 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 9 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 10 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 11 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
-./ohgodatool -i 12 --core-state 2 --mem-state 2 --volt-state 7 --mem-vddc-idx 7
+
+apt-get update
+apt-get upgrade
+apt-get dist-upgrade
+apt-get install mc fail2ban ufw ssh screen
+
+ufw allow 22
+ufw enable
+ufw logging off
+
+echo "1. install blockchain amd driver"
+cd /opt
+wget --referer=http://support.amd.com https://www2.ati.com/drivers/linux/ubuntu/amdgpu-pro-17.40-492261.tar.xz
+tar -Jxvf amdgpu-pro-17.40-492261.tar.xz
+cd /opt/amdgpu-pro-17.40-492261
+./amdgpu-pro-install --compute
+echo 'export LLVM_BIN=/opt/amdgpu-pro/bin' | sudo tee /etc/profile.d/amdgpu-pro.sh
+usermod -a -G video $LOGNAME
+
+reboot
+
+echo "2. rocm kernel"
+wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
+sudo sh -c 'echo deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main > /etc/apt/sources.list.d/rocm.list'
+apt-get update
+
+apt-get install rocm rocm-opencl-dev
+
+
+echo "3. rocm addons MUST HAVE"
+apt-get install rocm-amdgpu-pro
+
+mc -e /etc/default/grub
+linux-headers-4.11.0-kfd-compute-rocm-rel-1.6-180
+GRUB_DEFAULT=”Advanced options for Ubuntu>Ubuntu, with Linux 4.11.0-kfd-compute-rocm-rel-1.6-180”
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.vm_fragment_size=9"
+update-grub
+reboot
+updatedb
+
+reboot
+
+
+
+service lightdm stop
+
+echo "4. claymore xx"
+cd /opt/
+wget https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v10.0/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v10.0.-.LINUX.tar.gz
+mkdir /opt/claymore_v10
+tar -xvf Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v10.0.-.LINUX.tar.gz -C /opt/claymore_v10
+cd /opt/claymore_v10/
+chmod u+s ethdcrminer64
+reboot
+
+apt-get update
+apt-get upgrade
+updatedb
+reboot
+
+
+echo "5 autostart"
+
+
+mc -e /opt/_shell/autostart.sh
+#!/bin/bash
+DEFAULT_DELAY=0
+if [ "x$1" = "x" -o "x$1" = "xnone" ]; then
+   DELAY=$DEFAULT_DELAY
+else
+   DELAY=$1
+fi
+sleep $DELAY
+cd /opt/C_V10_ETH
+su mine -c "screen -dmS ethm ./start.sh"
+
+chmod +x autostart.sh
+
+mc -e /etc/rc.local
+mc -e /etc/init.d/rc.local
+/opt/mine/_shell_scripts/autostart.sh 15 &
+/opt/_shell/autostart.sh 15 &
+
+mc -e .bashrc
+alias miner='screen -x ethm'
+
+echo 6 "shell scripts"
+
+mc -e /opt/_shell/list_all_gpu.sh
+lspci | grep VGA
+clinfo | grep compute
+
+https://developer.amd.com/amd-accelerated-parallel-processing-app-sdk/
+-----------------------------------------------------------------------------
+
+https://github.com/fireice-uk/xmr-stak.git
+
+AMD APP SDK 3.0 (only needed to use AMD GPUs)
+
+    download and install the latest version from http://developer.amd.com/amd-accelerated-parallel-processing-app-sdk/
+
+Cuda 8.0+ (only needed to use NVIDIA GPUs)
+
+    donwload and install https://developer.nvidia.com/cuda-downloads
+    for minimal install choose Custom installation options during the install and select
+        CUDA/Develpment
+        CUDA/Runtime
+        Driver components
+
+GNU Compiler
+
+    # Ubuntu / Debian
+    sudo apt install libmicrohttpd-dev libssl-dev cmake build-essential libhwloc-dev
+    git clone https://github.com/fireice-uk/xmr-stak.git
+    mkdir xmr-stak/build
+    cd xmr-stak/build
+	$ cd $AMDAPPSDKROOT/lib/x86_64
+$ sudo ln -sf sdk/libOpenCL.so.1 libOpenCL.so
+    cmake .. -DCUDA_ENABLE=OFF -DCPU_ENABLE=OFF
+    make install
+	
+	https://github.com/fireice-uk/xmr-stak/blob/master/doc/compile_Linux.md
+	
+	 * On Linux you will need to configure large page support "sudo sysctl -w vm.nr_hugepages=128" and increase your
+ * ulimit -l. To do do this you need to add following lines to mc -e /etc/security/limits.conf - "
+ulimit -l unlimited
+ * soft memlock 262144
+ * hard memlock 262144
+
+ You can also do it Windows-style and simply run-as-root, but this is NOT
+ * recommended for security reasons.
+ 
+  ulimit -l unlimited
+
+  https://github.com/fireice-uk/xmr-stak/blob/master/xmrstak/donate-level.hpp
+  git clone https://github.com/Atrides/eth-proxy.git
+  1) install twisted
+ apt-get install python-twisted
+2) start proxy with
+ python ./eth-proxy.py
 
  
- Memory state 0:
-        VDDC: 750
-        VDDCI: 800
-        VDDC GFX offset: 0
-        MVDD: 865
-        Memory clock: 300
-Memory state 1:
-        VDDC: 790
-        VDDCI: 850
-        VDDC GFX offset: 0
-        MVDD: 870
-        Memory clock: 1000
-Memory state 2:
-        VDDC: 800
-        VDDCI: 950
-        VDDC GFX offset: 0
-        MVDD: 875
-        Memory clock: 1965
-
-DPM state 0:
-        VDDC: 750 (voltage table entry 0)
-        VDDC offset: 0
-        Core clock: 300
-DPM state 1:
-        VDDC: 790 (voltage table entry 1)
-        VDDC offset: 0
-        Core clock: 850
-DPM state 2:
-        VDDC: 800 (voltage table entry 2)
-        VDDC offset: 0
-        Core clock: 900
-DPM state 3:
-        VDDC: 810 (voltage table entry 3)
-        VDDC offset: 0
-        Core clock: 950
-DPM state 4:
-        VDDC: 820 (voltage table entry 4)
-        VDDC offset: 0
-        Core clock: 1000
-DPM state 5:
-        VDDC: 830 (voltage table entry 5)
-        VDDC offset: 0
-        Core clock: 1050
-DPM state 6:
-        VDDC: 840 (voltage table entry 6)
-        VDDC offset: 0
-        Core clock: 1100
-DPM state 7:
-        VDDC: 850 (voltage table entry 7)
-        VDDC offset: 0
-        Core clock: 1150
-
-Voltage state 0:
-        VDD = 750
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 1:
-        VDD = 790
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 2:
-        VDD = 800
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 3:
-        VDD = 810
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 4:
-        VDD = 820
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 5:
-        VDD = 830
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 6:
-        VDD = 840
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 7:
-        VDD = 850
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 8:
-        VDD = 800
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 9:
-        VDD = 850
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 10:
-        VDD = 900
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 11:
-        VDD = 950
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 12:
-        VDD = 1000
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 13:
-        VDD = 1050
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 14:
-        VDD = 1100
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
-Voltage state 15:
-        VDD = 1150
-        CACLow = 0
-        CACMid = 0
-        CACHigh = 0
