@@ -1,13 +1,17 @@
-mc -e /etc/rc.local
 
+
+-------------------------------------------------------------
+autostart:
+
+mc -e /etc/rc.local
 /opt/mine/_shell_scripts/_SET_ALL_STATES_2000.sh 15 &
 /opt/mine/_shell_scripts/autostart.sh 15 &
 
-mc -e .bashrc
+mc -e /root/.bashrc
 alias miner='screen -x ethm'
 
 
-
+-------------------------------------------------------------
 
 
 
