@@ -3,6 +3,12 @@
 
 cd /opt/mine/_shell_scripts
 
+#gpu0
+sleep 1
+./ohgodatool -i 0 --core-state 7 --core-vddc-idx 9
+./ohgodatool -i 0 --mem-state 2 --mem-clock 1950
+./ohgodatool -i 0 --mem-state 2 --mem-vddc-idx 9
+sleep 1
 ./ohgodatool -i 1 --core-state 7 --core-vddc-idx 9
 ./ohgodatool -i 1 --mem-state 2 --mem-clock 2000
 ./ohgodatool -i 1 --mem-state 2 --mem-vddc-idx 9
@@ -50,4 +56,42 @@ sleep 1
 ./ohgodatool -i 12 --core-state 7 --core-vddc-idx 9
 ./ohgodatool -i 12 --mem-state 2 --mem-clock 2000
 ./ohgodatool -i 12 --mem-state 2 --mem-vddc-idx 9
+sleep 1
+./ohgodatool -i 13 --core-state 7 --core-vddc-idx 9
+./ohgodatool -i 13 --mem-state 2 --mem-clock 2000
+./ohgodatool -i 13 --mem-state 2 --mem-vddc-idx 9
+sleep 1
+./ohgodatool -i 14 --core-state 7 --core-vddc-idx 9
+./ohgodatool -i 14 --mem-state 2 --mem-clock 2000
+./ohgodatool -i 14 --mem-state 2 --mem-vddc-idx 9
+sleep 1
+./ohgodatool -i 15 --core-state 7 --core-vddc-idx 9
+./ohgodatool -i 15 --mem-state 2 --mem-clock 2000
+./ohgodatool -i 15 --mem-state 2 --mem-vddc-idx 9
+
+
+
+
+
+
+#stable 800 3days
+./ohgodatool -i 1 --volt-state 9 --vddc-table-set 800
+
+#gpu2
+./ohgodatool -i 2 --volt-state 9 --vddc-table-set 845
+
+./ohgodatool -i 3 --volt-state 9 --vddc-table-set 830
+./ohgodatool -i 4 --volt-state 9 --vddc-table-set 800
+
+#gpu5 unstable 800
+./ohgodatool -i 5 --volt-state 9 --vddc-table-set 830
+./ohgodatool -i 6 --volt-state 9 --vddc-table-set 800
+#gpu7 unstable 800
+./ohgodatool -i 7 --volt-state 9 --vddc-table-set 840
+./ohgodatool -i 8 --volt-state 9 --vddc-table-set 800
+./ohgodatool -i 9 --volt-state 9 --vddc-table-set 800
+
+./ohgodatool -i 10 --volt-state 9 --vddc-table-set 815
+
+
 

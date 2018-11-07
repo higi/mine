@@ -11,7 +11,7 @@ else
    DELAY=$1
 fi
 sleep $DELAY
-cd /opt/mine/_shell_scripts/C_V10_ETH
-screen -dmS ethm ./start.sh
+cd /opt/mine/_shell_scripts/P_V35_ETH
+screen -dmS ethm ./start_ETH.sh
 
 date > /opt/stop$TIME.txt

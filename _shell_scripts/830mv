@@ -1,0 +1,14 @@
+#!/bin/bash
+
+./ohgodatool -i 0 --volt-state 9 --vddc-table-set 830
+./ohgodatool -i 1 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 2 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 3 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 4 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 5 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 6 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 7 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 8 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 9 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 10 --volt-state 9 --vddc-table-set 850
+./ohgodatool -i 11 --volt-state 9 --vddc-table-set 850
