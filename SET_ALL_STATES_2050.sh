@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /opt/mine/_shell_scripts
+cd /opt/mine
 
 ./ohgodatool -i 1 --core-state 7 --core-vddc-idx 9
 ./ohgodatool -i 1 --mem-state 2 --mem-clock 2050

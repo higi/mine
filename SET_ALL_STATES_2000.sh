@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cd /opt/mine/_shell_scripts
+cd /opt/mine
 
 #gpu0
 sleep 1
