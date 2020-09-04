@@ -1,0 +1,28 @@
+cd C:\Users\higi\Desktop\x64
+
+rem Vega gpu 3 - weaker Samsung straps
+WinAMDTweak.exe --gpu 0 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 1 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 2 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 3 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 4 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 5 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 6 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 7 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 8 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+
+
+cd C:\Users\higi\Desktop\x64
+
+@echo off
+
+rem Vega gpu 0 - lucky Samsung straps
+WinAMDTweak.exe --gpu 0 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 1 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 2 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 3 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 4 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 5 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 6 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 7 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
+WinAMDTweak.exe --gpu 8 --CL 19 --RAS 28 --RCDRD 12 --RCDWR 5 --RC 44 --RP 12 --RRDS 3 --RRDL 3 --RTP 4 --FAW 18 --CWL 6 --WTRS 4 --WTRL 9 --WR 15 --WRRD 1 --RDWR 18 --REF 17000 --RFC 248
